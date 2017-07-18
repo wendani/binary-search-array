@@ -20,10 +20,8 @@ int bsearch(int *table, int sz, int key)
 	
 	low  = 0;
 	high = sz - 1;
-
-	while (low <= high) {
-		mid = (low + high) >> 1;
-
+	mid  = high >> 1;
+	while (low < high) {
 		if (key == table[mid])
 			return mid;
 		else if (key < table[mid])
@@ -31,7 +29,12 @@ int bsearch(int *table, int sz, int key)
 		else
 			// key > table[mid]
 			low = mid + 1;
+
+		mid = (low + high) >> 1;
 	}
+	// reach here, we must have low == high
+	if (key == table[mid])
+		return mid;
 
 	return -3;
 }
