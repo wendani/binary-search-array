@@ -65,6 +65,31 @@ int bsearch_recur(int *table, int sz, int key) {
 	}
 }
 
+// one base of (sz <= 0) is enough
+int bsearch_recur_onebase(int *table, int sz, int key) {
+	int mid, ret_val;
+
+	if (!table)
+		return -1;
+
+	if (sz <= 0)
+		return -1;
+
+	// case of sz > 0
+	mid = sz >> 1;
+	if (key == table[mid])
+		return mid;
+	else if (key < table[mid])
+		return bsearch_recur_onebase(table, mid, key);
+	else {
+		// key > table[mid]
+		ret_val = bsearch_recur_onebase(table + mid + 1, sz - mid - 1, key);
+		if (ret_val < 0)
+			return ret_val;
+		else
+			return mid + 1 + ret_val;
+	}
+}
 
 int main(int argc, char *argv[])
 {
@@ -74,6 +99,7 @@ int main(int argc, char *argv[])
 	printf("index = %d\n", bsearch(t, sizeof(t)/sizeof(int), 9));
 	printf("index = %d\n", bsearch(t, sizeof(t)/sizeof(int), 6));
 
+	printf("bsearch_recur\n");
 	printf("index = %d\n", bsearch_recur(t, sizeof(t)/sizeof(int), 1));
 	printf("index = %d\n", bsearch_recur(t, sizeof(t)/sizeof(int), 3));
 	printf("index = %d\n", bsearch_recur(t, sizeof(t)/sizeof(int), 5));
@@ -85,6 +111,19 @@ int main(int argc, char *argv[])
 	printf("index = %d\n", bsearch_recur(t, sizeof(t)/sizeof(int), 6));
 	printf("index = %d\n", bsearch_recur(t, sizeof(t)/sizeof(int), 8));
 	printf("index = %d\n", bsearch_recur(t, sizeof(t)/sizeof(int), 10));
+
+	printf("bsearch_recur_onebase\n");
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 1));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 3));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 5));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 7));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 9));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), -1));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 2));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 4));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 6));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 8));
+	printf("index = %d\n", bsearch_recur_onebase(t, sizeof(t)/sizeof(int), 10));
 
 	return 0;
 }
