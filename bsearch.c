@@ -33,6 +33,31 @@ int bsearch(int *table, int sz, int key) {
 	return -3;
 }
 
+int bsearch1(int *table, int sz, int key) {
+	int lo, hi, mid;
+
+	if (!table)
+		return -1;
+
+	if (sz <= 0)
+		return -2;
+
+	lo = 0;
+	hi = sz - 1;
+	while (lo <= hi) {
+		mid = (lo + hi) >> 1;
+
+		if (table[mid] == key)
+			return mid;
+		else if (key < table[mid])
+			hi = mid - 1;
+		else
+			// (table[mid] < key)
+			lo = mid + 1;
+	}
+	return -3;
+}
+
 int bsearch_recur(int *table, int sz, int key) {
 	int mid, ret_val;
 
@@ -98,6 +123,10 @@ int main(int argc, char *argv[])
 	printf("index = %d\n", bsearch(t, sizeof(t)/sizeof(int), 3));
 	printf("index = %d\n", bsearch(t, sizeof(t)/sizeof(int), 9));
 	printf("index = %d\n", bsearch(t, sizeof(t)/sizeof(int), 6));
+
+	printf("index = %d\n", bsearch1(t, sizeof(t)/sizeof(int), 3));
+	printf("index = %d\n", bsearch1(t, sizeof(t)/sizeof(int), 9));
+	printf("index = %d\n", bsearch1(t, sizeof(t)/sizeof(int), 6));
 
 	printf("bsearch_recur\n");
 	printf("index = %d\n", bsearch_recur(t, sizeof(t)/sizeof(int), 1));
